@@ -1,0 +1,90 @@
+{% extends "material/base.html" %}
+{% block html_attribs %} lang="es"{% endblock %}
+{% block title %}
+Inicio
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+    <link rel="stylesheet" href="{{url_for('.static', filename='css/index.css')}}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    
+                <style>
+                        @media only screen
+                        and (min-device-width : 320px)
+                        and (max-device-width : 480px){
+                            #caja
+                            {
+                                width:100% !important;
+                            }
+                            #row1
+                            {
+                                padding-left:50px !important;
+                            }
+                            #row2
+                            {
+                                padding-left:50px !important;
+                            }
+                            .container
+                            {
+                                padding: 0rem;
+                            }
+                        }
+                        @media only screen
+                        and (min-device-width : 768px)
+                        and (max-device-width : 1024px){
+                            #caja
+                            {
+                                width:80% !important;
+                            }
+                            #row1
+                            {
+                                padding-left:80px !important;
+                            }
+                            #row2
+                            {
+                                padding-left:80px !important;
+                            }
+                            .container
+                            {
+                                padding: 0rem;
+                            }
+                        }
+                </style>
+                <div class="container">
+                    
+
+                    <div id="caja" class="card grey lighten-5 z-depth-3" style=" margin:auto; width:50%; margin-top:15%; border-radius:18px;">
+                        <div class="row white">
+                                <br>
+                                <div class="col s12">
+                                    <center><h5 class="grey-text text-darken-2">Bienvenido</h5></center><br>
+                                </div>
+                        </div>
+                        <div id="row1" class="row" style="padding-left:100px;">
+                                <form method="get" action="/geo_search">
+                                    <button type="submit" class="btn-floating  waves-effect waves-light light-blue"><i class="material-icons">location_on</i></button> 
+                                    &nbsp;&nbsp;&nbsp;<span style="font-size:17px; color:#616161;">Area de servicio</span>
+                                </form>      
+                        </div>
+
+                        <div id="row1" class="row" style="padding-left:100px;">
+                                <form method="get" action="/supdata">
+                                    <button type="submit" href="/supdata" class="btn-floating  waves-effect waves-light light-blue"><i class="material-icons">access_alarm</i></button>
+                                    &nbsp;&nbsp;&nbsp;<span style="font-size:17px; color:#616161;">Horario de servicio</span>
+                                </form>
+                                <br>
+                        </div>
+
+                        <div class="row white">
+                                <form method="get" action="/logout">
+                                    <center><button type="submit"  href="/logout" class="btn-floating  waves-effect waves-light" style="background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);"><i class="material-icons">power_settings_new</i></button></center>
+                                <form>
+                        </div>
+                    </div>
+
+                </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "material/base.html" %}
+{% import "material/wtf.html" as wtf %}
+{% block html_attribs %} lang="es"{% endblock %}
+{% block title %}
+Inicio de sesion
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+    <link rel="stylesheet" href="{{url_for('.static', filename='css/login.css')}}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <form class="form-signin" method="POST" action="/login">
+                <h2 class="form-sigin-heading">Iniciar sesión</h2>
+                {{ form.hidden_tag() }}
+                {{ wtf.form_field(form.idsupplier) }}
+                {{ wtf.form_field(form.rfcsupplier) }}
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Acceder</button>
+            </form>
+        </div>
+    </div> <!-- /container -->
+{% endblock %}

@@ -1,0 +1,14 @@
+.i-am-centered { margin: auto; max-width: 300px;}
+.b{ border-radius: 0px 30px 30px 0px; }
+
+.centrado {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.boton {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}

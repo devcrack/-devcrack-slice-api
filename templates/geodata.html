@@ -1,0 +1,144 @@
+<!--REVISAS SI SE MOVIO ALGO---->
+{% extends "material/base.html" %}
+{% import "material/wtf.html" as wtf %}
+
+{% block html_attribs %} lang="es"{% endblock %}
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% block title %} Panel de configuration {% endblock %}
+
+{% block styles %}
+{{super()}}
+    <link rel="stylesheet" href="{{url_for('.static', filename='css/geodata.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+          crossorigin=""/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<style>
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+.leaflet-interactive
+{
+	stroke: #039be5;
+	fill: #039be5;
+}
+               
+</style>
+            
+<nav id="nb">
+    <div class="nav-wrapper  grey darken-3">
+    
+        <ul id="" class="left">
+            <li><a class="waves-effect waves-light transparent btn" href="/" style="border:1px solid white; ;border-radius: 30px; margin-bottom: 6px; margin-left:5px;">Inicio</a></li>
+            <li><a href="">{{ name }} -- {{ dvr_name }}</a></li>
+        </ul>
+    </div>
+</nav>
+            
+
+            <div  id="contenido1" class="container" style="position:absolute; z-index:1; width:auto; margin-left:-12px; margin-top:14px;">
+                    <a id="show-search" class="btn-floating  waves-effect waves-light light-blue"><i class="material-icons">search</i></a>
+            </div>
+
+            <div  id="contenido2" class="container" style="position:absolute; z-index:1; width:auto; margin-left:35px; margin-top:14px;">
+                    <a id="btn_save_geojson" class="btn-floating waves-effect waves-light teal"><i class="material-icons">save</i></a>
+            </div>
+
+            <div id="contenido" class="container card z-depth-3" style="position:absolute; display:none; z-index:1; width:auto; margin-left:10px; margin-top:60px; border-radius:18px;">
+                        <center><h5 id="t" style="padding: 5px;"><a style="color:grey;" class="navbar-brand" href="/">{{ name }}</a></h5></center>
+                        <div id="busqueda" class="row" style="padding-left:10px; padding-right:10px;" id="r1">
+                            <input type="text" id="entrada" name="data" class="form-control" placeholder="Estado, municipio, pais...">
+                            <button id='btn_s' class="btn-floating light-blue tooltipped" data-position="left" data-tooltip="Buscar" onclick="busca_elemento()"><i class="material-icons">search</i></button>
+                        </div>
+                
+                <div class="row" id="r2">
+                    <div id="busqueda" class="panel panel-primary" id="result_panel">
+                        <div class="panel-body">
+                            <div id="FList" class="list-group" role="tablist"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="small" class="row light-blue" style="border-radius: 18px 0px; width: 40px; margin-right: -1.5rem; float:right; margin-bottom:0px;">
+                    <center><i id="al" class="material-icons white-text" style="padding:8px;">arrow_back</i></center>
+                </div>
+
+            </div>
+
+            
+            <div class="col-md-9"><div id="map" style="z-index:0; min-height: 100vh;"></div></div>
+
+            <div class="footer grey lighten-5" style="display:none;">
+                <nav>
+                    <div class="nav-wrapper  grey darken-3">
+                         <ul id="" class="left">
+                            <li><a class="waves-effect waves-light transparent btn" href="/" style="border:1px solid white; ;border-radius: 30px; margin-bottom: 6px; margin-left:5px;">Inicio</a></li>
+                            <li><a href="">{{ name }}</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+            integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+            crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script> -->
+    <script src="{{url_for('.static', filename='js/dist/jquery.js')}}"></script>
+    <script src="{{url_for('.static', filename='js/index_map.js')}}"></script>
+    <script>
+        $(document).ready(function() {
+
+                if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                    $('.footer').show();
+                    $('#nb').hide();
+                }
+                else
+                {
+                    $('.footer').hide();
+                    $('#nb').show();
+                }
+
+                $('.leaflet-top').css('margin-top','60px');
+                $('.leaflet-top').css('margin-left','1px');
+            
+                $('#small').click(function(){
+                    $('#contenido').fadeOut();
+                    $('.leaflet-top').css('margin-top','60px');
+                });
+
+                
+
+                $('#show-search').click(function(){
+                    $('#contenido').fadeIn();
+                    //$('#contenido1').css('margin-left','320px');
+                    //$('#contenido2').css('margin-left','320px');
+                    $('.leaflet-top').css('margin-top','310px');
+                    //$('.leaflet-top').css('margin-left','340px');
+                });
+
+                $('#search-mobile').click(function(){
+                    $('#contenido').fadeIn();
+                    
+                });
+        });
+        
+
+       
+    </script>
+{{super()}}
+{% endblock %}

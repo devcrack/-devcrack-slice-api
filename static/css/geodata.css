@@ -1,0 +1,37 @@
+#one {
+    background-color: chocolate;
+}
+
+#contenido {
+    margin-top: 50px;
+}
+
+#busqueda {
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#map {
+    height: 80%;
+    min-height: 700px;
+}
+
+.busqueda {
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.en-linea {
+    display: inline-block;
+}
+
+.btn-busqueda {
+    margin: 5px 3px 0px 3px;
+}
+
+.panel {
+    border: none;
+    box-shadow: none;
+}
